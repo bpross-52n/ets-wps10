@@ -81,6 +81,20 @@
                                 </tr>
                             </table>
                         </blockquote>
+                        <h4>Test process</h4>
+                        <p>
+                            Please provide an process identifier that the execute tets should be run with.
+                        </p>
+                        <blockquote>
+                            <table border="1" padding="4" bgcolor="#00ffff">
+                                <tr>
+                                    <td align="left">Process identifier:</td>
+                                    <td align="center">
+                                        <input name="process-identifier" size="128" type="text" value="process.id"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </blockquote>
                         <input type="submit" value="Start"/>
                     </body>
                 </ctl:form>
@@ -100,6 +114,7 @@
 						</xsl:variable>
                         <xsl:variable name="wps.updatesequence.high" select="$form-values/values/value[@key='updatesequence-high']"/>
                         <xsl:variable name="wps.updatesequence.low" select="$form-values/values/value[@key='updatesequence-low']"/>
+                        <xsl:variable name="wps.process.id" select="$form-values/values/value[@key='process-identifier']"/>
 
                         <!-- headless version >
 			<xsl:variable name="wps.service.url" select="'http://localhost:9090/wps/default'"/>
@@ -149,6 +164,7 @@
 				<ctl:with-param name="exceptionReportSchema" select="$exceptionReportSchema" />
 				<ctl:with-param name="wpsSchemaRoot" select="$wps.schema.root" />
 				<ctl:with-param name="wpsVersion" select="$wps.version"/>
+				<ctl:with-param name="processId" select="$wps.process.id"/>
 			</ctl:call-test>
 
 		</ctl:code>
@@ -280,7 +296,7 @@
 			<ctl:param name="exceptionReportSchema"/>
 			<ctl:param name="wpsSchemaRoot"/>
 			<ctl:param name="wpsVersion"/>
-
+			<ctl:param name="processId"/>
 
 			<ctl:assertion>All assertions for "core" conformance are satisfied.</ctl:assertion>
 			<ctl:comment>Test driver for the core module.</ctl:comment>
@@ -512,6 +528,16 @@
 									<ctl:with-param name="exceptionReportSchema" select="$exceptionReportSchema"/>
 									<ctl:with-param name="postURL" select="$executePostURL"/>
 									<ctl:with-param name="executeVersion" select="$executeVersion"/>
+								</ctl:call-test>
+
+								<ctl:message select="'********************************************************'"/>
+								<ctl:message select="''"/>
+								<ctl:call-test name="execute:core-WPS.Execute-POST-ExecuteRequest.1">
+				                    <ctl:with-param name="executeResponseSchemaLocation" select="wpsFunctions:schemaPath($wpsSchemaRoot, $wpsVersion,'wps', 'wpsAll.xsd')"/>
+									<ctl:with-param name="exceptionReportSchema" select="$exceptionReportSchema"/>
+									<ctl:with-param name="postURL" select="$executePostURL"/>
+									<ctl:with-param name="executeVersion" select="$executeVersion"/>
+									<ctl:with-param name="processId" select="$processId"/>
 								</ctl:call-test>
 							</xsl:otherwise>
 						</xsl:choose>

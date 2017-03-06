@@ -138,4 +138,84 @@
         </ctl:code>
     </ctl:test>
 
+	<ctl:test name="execute:core-WPS.Execute-POST-ExecuteRequest.1">
+	    <ctl:param name="exceptionReportSchema"/>
+        <ctl:param name="postURL"/>
+        <ctl:param name="executeVersion"/>
+        <ctl:param name="executeResponseSchemaLocation"/>
+        <ctl:param name="processId"/>
+        <ctl:assertion>Supplying an invalid process identifier (not advertised in the capabilities document) or no process identifier for the Identifier parameter produces a valid error report message.</ctl:assertion>
+        <ctl:comment>Check that supplying an invalid process identifier (not advertised in the capabilities document) or no process identifier for the Identifier parameter produces a valid error report message.  Pass if an invalid Process Identifier or no Process identifier produces a valid error report message; fail otherwise.</ctl:comment>
+        <ctl:link title="Verify that the server handles an invalid process identifier in the request correctly.">ATS_URL#WPS.Execute-RequestInvalidIdentifier</ctl:link>
+		<ctl:code>
+
+			<!--************************************ check execute operation ****************************************** -->
+			<ctl:message>Making Execute request.</ctl:message>
+			<ctl:message select="concat('Exception Schema file: ', $exceptionReportSchema)" />
+			<ctl:message select="concat('WPS Response Schema file: ', $executeResponseSchemaLocation)" />
+			<xsl:variable name="executeRequest">
+				<ctl:request>
+					<ctl:url>
+						<xsl:value-of select="$postURL" />
+					</ctl:url>
+					<ctl:method>post</ctl:method>
+
+					<ctl:body>
+						<Execute service="WPS" version="1.0.0"
+							xmlns="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1">
+							<ows:Identifier><xsl:value-of select="$processId"/></ows:Identifier>
+							<DataInputs>
+								<Input>
+									<ows:Identifier>complexInput</ows:Identifier>
+									<Data>
+										<ComplexData>
+											<testElement>testValue</testElement>
+										</ComplexData>
+									</Data>
+								</Input>
+								<Input>
+									<ows:Identifier>literalInput</ows:Identifier>
+									<Data>
+										<LiteralData dataType="xs:string">Hello!
+										</LiteralData>
+									</Data>
+								</Input>
+							</DataInputs>
+							<ResponseForm>
+								<ResponseDocument storeExecuteResponse="false" lineage="false" status="false">
+									<Output asReference="false" encoding="UTF-8">
+										<ows:Identifier>literalOutput</ows:Identifier>
+									</Output>
+									<Output asReference="false" encoding="UTF-8">
+										<ows:Identifier>complexOutput</ows:Identifier>
+									</Output>
+								</ResponseDocument>
+							</ResponseForm>
+						</Execute>
+					</ctl:body>
+                    <ctl:call-function name="wpsFunctions:xmlValidatingParser">
+                        <ctl:with-param name="schemaFile" select="$executeResponseSchemaLocation"/>
+                    </ctl:call-function>
+				</ctl:request>
+			</xsl:variable>
+
+			<xsl:choose>
+				<!-- check for valid schema or missing response -->
+				<xsl:when test="not($executeRequest/*)">
+					<ctl:message>Execute response not valid.</ctl:message>
+					<ctl:message select="concat('Schema file: ', $executeResponseSchemaLocation)" />
+					<ctl:fail />
+				</xsl:when>
+				<xsl:when test="$executeRequest//ows:ExceptionReport">
+					<ctl:message>Valid execute request failed.</ctl:message>
+					<ctl:fail />
+				</xsl:when>
+				<!-- looks good -->
+				<xsl:otherwise>
+					<ctl:message>OK</ctl:message>
+				</xsl:otherwise>
+			</xsl:choose>
+		</ctl:code>
+	</ctl:test>
+
 </ctl:package>
