@@ -144,6 +144,15 @@
         <ctl:param name="executeVersion"/>
         <ctl:param name="executeResponseSchemaLocation"/>
         <ctl:param name="processId"/>
+		<ctl:param name="literalInputId"/>
+		<ctl:param name="literalInputDatatype"/>
+		<ctl:param name="literalInputUom"/>
+		<ctl:param name="literalInput"/>
+		<ctl:param name="complexInputId"/>
+		<ctl:param name="complexInputMimetype"/>
+		<ctl:param name="complexInputSchema"/>
+		<ctl:param name="complexInputEncoding"/>
+		<ctl:param name="complexInput"/>
         <ctl:assertion>Supplying an invalid process identifier (not advertised in the capabilities document) or no process identifier for the Identifier parameter produces a valid error report message.</ctl:assertion>
         <ctl:comment>Check that supplying an invalid process identifier (not advertised in the capabilities document) or no process identifier for the Identifier parameter produces a valid error report message.  Pass if an invalid Process Identifier or no Process identifier produces a valid error report message; fail otherwise.</ctl:comment>
         <ctl:link title="Verify that the server handles an invalid process identifier in the request correctly.">ATS_URL#WPS.Execute-RequestInvalidIdentifier</ctl:link>
@@ -166,17 +175,47 @@
 							<ows:Identifier><xsl:value-of select="$processId"/></ows:Identifier>
 							<DataInputs>
 								<Input>
-									<ows:Identifier>complexInput</ows:Identifier>
+									<ows:Identifier><xsl:value-of select="$complexInputId"/></ows:Identifier>
 									<Data>
 										<ComplexData>
-											<testElement>testValue</testElement>
+										    <xsl:choose>
+										    <xsl:when test="$complexInputMimetype != ''">
+                                                <xsl:attribute name="mimeType">
+                                                    <xsl:value-of select="$complexInputMimetype"/>
+                                                </xsl:attribute>
+                                            </xsl:when>
+										    <xsl:when test="$complexInputSchema != ''">
+                                                <xsl:attribute name="schema">
+                                                    <xsl:value-of select="$complexInputSchema"/>
+                                                </xsl:attribute>
+                                            </xsl:when>
+										    <xsl:when test="$complexInputEncoding != ''">
+                                                <xsl:attribute name="encoding">
+                                                    <xsl:value-of select="$complexInputEncoding"/>
+                                                </xsl:attribute>
+                                            </xsl:when>
+                                            </xsl:choose>
+											<xsl:value-of select="$complexInput"/>
 										</ComplexData>
 									</Data>
 								</Input>
 								<Input>
-									<ows:Identifier>literalInput</ows:Identifier>
+									<ows:Identifier><xsl:value-of select="$literalInputId"/></ows:Identifier>
 									<Data>
-										<LiteralData dataType="xs:string">Hello!
+										<LiteralData>
+                                            <xsl:choose>
+										    <xsl:when test="$literalInputDatatype != ''">
+                                                <xsl:attribute name="dataType">
+                                                    <xsl:value-of select="$literalInputDatatype"/>
+                                                </xsl:attribute>
+                                            </xsl:when>
+										    <xsl:when test="$literalInputUom != ''">
+                                                <xsl:attribute name="uom">
+                                                    <xsl:value-of select="$literalInputUom"/>
+                                                </xsl:attribute>
+                                            </xsl:when>
+                                            </xsl:choose>
+										    <xsl:value-of select="$literalInput"/>
 										</LiteralData>
 									</Data>
 								</Input>

@@ -83,14 +83,84 @@
                         </blockquote>
                         <h4>Test process</h4>
                         <p>
-                            Please provide an process identifier that the execute tets should be run with.
+                            Please provide an process identifier that the execute tests should be run with.
                         </p>
                         <blockquote>
                             <table border="1" padding="4" bgcolor="#00ffff">
                                 <tr>
                                     <td align="left">Process identifier:</td>
                                     <td align="center">
-                                        <input name="process-identifier" size="128" type="text" value="process.id"/>
+                                        <input name="process-identifier" size="128" type="text" value="org.n52.wps.server.algorithm.test.EchoProcess"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </blockquote>
+                        <h5>Literal input</h5>
+                        <p>
+                            Please provide an literal input identifier that the execute tests should be run with.
+                        </p>
+                        <blockquote>
+                            <table border="1" padding="4" bgcolor="#00ffff">
+                                <tr>
+                                    <td align="left">Literal input identifier:</td>
+                                    <td align="center">
+                                        <input name="literal-input-identifier" size="128" type="text" value="literalInput"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left">Literal input data type: (optional)</td>
+                                    <td align="center">
+                                        <input name="literal-input-datatype" size="128" type="text" value=""/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left">Literal input unit of measurement: (optional)</td>
+                                    <td align="center">
+                                        <input name="literal-input-uom" size="128" type="text" value=""/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left">Literal input:</td>
+                                    <td align="center">
+                                        <input name="literal-input" size="128" type="text" value="literal.input"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </blockquote>
+                        <h5>Complex input</h5>
+                        <p>
+                            Please provide an complex input that the execute tests should be run with.
+                        </p>
+                        <blockquote>
+                            <table border="1" padding="4" bgcolor="#00ffff">
+                                <tr>
+                                    <td align="left">Complex input identifier:</td>
+                                    <td align="center">
+                                        <input name="complex-input-identifier" size="128" type="text" value="complexInput"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left">Complex input MIME type (optional):</td>
+                                    <td align="center">
+                                        <input name="complex-input-mimetype" size="128" type="text" value=""/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left">Complex input schema (optional):</td>
+                                    <td align="center">
+                                        <input name="complex-input-schema" size="128" type="text" value=""/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left">Complex input encoding (optional):</td>
+                                    <td align="center">
+                                        <input name="complex-input-encoding" size="128" type="text" value=""/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left">Complex input:</td>
+                                    <td align="center">
+                                        <textarea name="complex-input" style="width:100%"><test>data</test></textarea>
                                     </td>
                                 </tr>
                             </table>
@@ -115,6 +185,15 @@
                         <xsl:variable name="wps.updatesequence.high" select="$form-values/values/value[@key='updatesequence-high']"/>
                         <xsl:variable name="wps.updatesequence.low" select="$form-values/values/value[@key='updatesequence-low']"/>
                         <xsl:variable name="wps.process.id" select="$form-values/values/value[@key='process-identifier']"/>
+                        <xsl:variable name="literal.input.id" select="$form-values/values/value[@key='literal-input-identifier']"/>
+                        <xsl:variable name="literal.input.datatype" select="$form-values/values/value[@key='literal-input-datatype']"/>
+                        <xsl:variable name="literal.input.uom" select="$form-values/values/value[@key='literal-input-uom']"/>
+                        <xsl:variable name="literal.input" select="$form-values/values/value[@key='literal-input']"/>                        
+                        <xsl:variable name="complex.input.id" select="$form-values/values/value[@key='complex-input-identifier']"/>
+                        <xsl:variable name="complex.input.mimetype" select="$form-values/values/value[@key='complex-input-mimetype']"/>
+                        <xsl:variable name="complex.input.schema" select="$form-values/values/value[@key='complex-input-schema']"/>
+                        <xsl:variable name="complex.input.encoding" select="$form-values/values/value[@key='complex-input-encoding']"/>
+                        <xsl:variable name="complex.input" select="$form-values/values/value[@key='complex-input']"/>
 
                         <!-- headless version >
 			<xsl:variable name="wps.service.url" select="'http://localhost:9090/wps/default'"/>
@@ -144,19 +223,19 @@
                         </xsl:if>
 
 
-			<ctl:call-test name="wps:ows-main">
-				<ctl:with-param name="serviceURL" select="$wps.service.url" />
-				<ctl:with-param name="exceptionReportSchema" select="$exceptionReportSchema" />
-				<ctl:with-param name="wpsSchemaRoot" select="$path" />
-                                <ctl:with-param name="wpsVersion" select="$wps.version" />
-				<ctl:with-param name="updatesequenceHigh" select="$wps.updatesequence.high" />
-                                <ctl:with-param name="updatesequenceLow" select="$wps.updatesequence.low" />
-			</ctl:call-test>
+<!-- 			<ctl:call-test name="wps:ows-main"> -->
+<!-- 				<ctl:with-param name="serviceURL" select="$wps.service.url" /> -->
+<!-- 				<ctl:with-param name="exceptionReportSchema" select="$exceptionReportSchema" /> -->
+<!-- 				<ctl:with-param name="wpsSchemaRoot" select="$path" /> -->
+<!--                                 <ctl:with-param name="wpsVersion" select="$wps.version" /> -->
+<!-- 				<ctl:with-param name="updatesequenceHigh" select="$wps.updatesequence.high" /> -->
+<!--                                 <ctl:with-param name="updatesequenceLow" select="$wps.updatesequence.low" /> -->
+<!-- 			</ctl:call-test> -->
 
-			<ctl:call-test name="wps:general-main">
-				<ctl:with-param name="serviceURL" select="$wps.service.url" />
-				<ctl:with-param name="exceptionReportSchema" select="$exceptionReportSchema" />
-			</ctl:call-test>
+<!-- 			<ctl:call-test name="wps:general-main"> -->
+<!-- 				<ctl:with-param name="serviceURL" select="$wps.service.url" /> -->
+<!-- 				<ctl:with-param name="exceptionReportSchema" select="$exceptionReportSchema" /> -->
+<!-- 			</ctl:call-test> -->
 
 			<ctl:call-test name="wps:core-main">
 				<ctl:with-param name="serviceURL" select="$wps.service.url" />
@@ -165,6 +244,15 @@
 				<ctl:with-param name="wpsSchemaRoot" select="$wps.schema.root" />
 				<ctl:with-param name="wpsVersion" select="$wps.version"/>
 				<ctl:with-param name="processId" select="$wps.process.id"/>
+				<ctl:with-param name="literalInputId" select="$literal.input.id"/>
+				<ctl:with-param name="literalInputDatatype" select="$literal.input.datatype"/>
+				<ctl:with-param name="literalInputUom" select="$literal.input.uom"/>
+				<ctl:with-param name="literalInput" select="$literal.input"/>
+				<ctl:with-param name="complexInputId" select="$complex.input.id"/>
+				<ctl:with-param name="complexInputMimetye" select="$complex.input.mimetype"/>
+				<ctl:with-param name="complexInputSchema" select="$complex.input.schema"/>
+				<ctl:with-param name="complexInputEncoding" select="$complex.input.encoding"/>
+				<ctl:with-param name="complexInput" select="$complex.input"/>
 			</ctl:call-test>
 
 		</ctl:code>
@@ -297,6 +385,15 @@
 			<ctl:param name="wpsSchemaRoot"/>
 			<ctl:param name="wpsVersion"/>
 			<ctl:param name="processId"/>
+			<ctl:param name="literalInputId"/>
+			<ctl:param name="literalInputDatatype"/>
+			<ctl:param name="literalInputUom"/>
+			<ctl:param name="literalInput"/>
+		    <ctl:param name="complexInputId"/>
+		    <ctl:param name="complexInputMimetype"/>
+		    <ctl:param name="complexInputSchema"/>
+		    <ctl:param name="complexInputEncoding"/>
+		    <ctl:param name="complexInput"/>
 
 			<ctl:assertion>All assertions for "core" conformance are satisfied.</ctl:assertion>
 			<ctl:comment>Test driver for the core module.</ctl:comment>
@@ -538,6 +635,15 @@
 									<ctl:with-param name="postURL" select="$executePostURL"/>
 									<ctl:with-param name="executeVersion" select="$executeVersion"/>
 									<ctl:with-param name="processId" select="$processId"/>
+									<ctl:with-param name="literalInputId" select="$literalInputId"/>
+									<ctl:with-param name="literalInputDatatype" select="$literalInputDatatype"/>
+									<ctl:with-param name="literalInputUom" select="$literalInputUom"/>
+									<ctl:with-param name="literalInput" select="$literalInput"/>
+									<ctl:with-param name="complexInputId" select="$complexInputId"/>
+									<ctl:with-param name="complexInputMimetype" select="$complexInputMimetype"/>
+									<ctl:with-param name="complexInputSchema" select="$complexInputSchema"/>
+									<ctl:with-param name="complexInputEncoding" select="$complexInputEncoding"/>
+									<ctl:with-param name="complexInput" select="$complexInput"/>
 								</ctl:call-test>
 							</xsl:otherwise>
 						</xsl:choose>
