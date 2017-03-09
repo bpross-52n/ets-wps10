@@ -153,6 +153,11 @@
 		<ctl:param name="complexInputSchema"/>
 		<ctl:param name="complexInputEncoding"/>
 		<ctl:param name="complexInput"/>
+		<ctl:param name="literalOutputId"/>
+		<ctl:param name="complexOutputId"/>
+		<ctl:param name="complexOutputMimetype"/>
+		<ctl:param name="complexOutputSchema"/>
+		<ctl:param name="complexOutputEncoding"/>
         <ctl:assertion>Supplying an invalid process identifier (not advertised in the capabilities document) or no process identifier for the Identifier parameter produces a valid error report message.</ctl:assertion>
         <ctl:comment>Check that supplying an invalid process identifier (not advertised in the capabilities document) or no process identifier for the Identifier parameter produces a valid error report message.  Pass if an invalid Process Identifier or no Process identifier produces a valid error report message; fail otherwise.</ctl:comment>
         <ctl:link title="Verify that the server handles an invalid process identifier in the request correctly.">ATS_URL#WPS.Execute-RequestInvalidIdentifier</ctl:link>
@@ -223,10 +228,10 @@
 							<ResponseForm>
 								<ResponseDocument storeExecuteResponse="false" lineage="false" status="false">
 									<Output asReference="false" encoding="UTF-8">
-										<ows:Identifier>literalOutput</ows:Identifier>
+										<ows:Identifier><xsl:value-of select="$literalOutputId"/></ows:Identifier>
 									</Output>
 									<Output asReference="false" encoding="UTF-8">
-										<ows:Identifier>complexOutput</ows:Identifier>
+										<ows:Identifier><xsl:value-of select="$complexOutputId"/></ows:Identifier>
 									</Output>
 								</ResponseDocument>
 							</ResponseForm>

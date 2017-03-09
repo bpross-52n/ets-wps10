@@ -165,6 +165,52 @@
                                 </tr>
                             </table>
                         </blockquote>
+                        <h5>Literal output</h5>
+                        <p>
+                            Please provide an literal output identifier that the execute tests should be run with.
+                        </p>
+                        <blockquote>
+                            <table border="1" padding="4" bgcolor="#00ffff">
+                                <tr>
+                                    <td align="left">Literal output identifier:</td>
+                                    <td align="center">
+                                        <input name="literal-output-identifier" size="128" type="text" value="literalOutput"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </blockquote>
+                        <h5>Complex output</h5>
+                        <p>
+                            Please provide an complex output that the execute tests should be run with.
+                        </p>
+                        <blockquote>
+                            <table border="1" padding="4" bgcolor="#00ffff">
+                                <tr>
+                                    <td align="left">Complex output identifier:</td>
+                                    <td align="center">
+                                        <input name="complex-output-identifier" size="128" type="text" value="complexOutput"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left">Complex output MIME type (optional):</td>
+                                    <td align="center">
+                                        <input name="complex-output-mimetype" size="128" type="text" value=""/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left">Complex output schema (optional):</td>
+                                    <td align="center">
+                                        <input name="complex-output-schema" size="128" type="text" value=""/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left">Complex output encoding (optional):</td>
+                                    <td align="center">
+                                        <input name="complex-output-encoding" size="128" type="text" value=""/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </blockquote>
                         <input type="submit" value="Start"/>
                     </body>
                 </ctl:form>
@@ -188,12 +234,17 @@
                         <xsl:variable name="literal.input.id" select="$form-values/values/value[@key='literal-input-identifier']"/>
                         <xsl:variable name="literal.input.datatype" select="$form-values/values/value[@key='literal-input-datatype']"/>
                         <xsl:variable name="literal.input.uom" select="$form-values/values/value[@key='literal-input-uom']"/>
-                        <xsl:variable name="literal.input" select="$form-values/values/value[@key='literal-input']"/>                        
+                        <xsl:variable name="literal.input" select="$form-values/values/value[@key='literal-input']"/>
                         <xsl:variable name="complex.input.id" select="$form-values/values/value[@key='complex-input-identifier']"/>
                         <xsl:variable name="complex.input.mimetype" select="$form-values/values/value[@key='complex-input-mimetype']"/>
                         <xsl:variable name="complex.input.schema" select="$form-values/values/value[@key='complex-input-schema']"/>
                         <xsl:variable name="complex.input.encoding" select="$form-values/values/value[@key='complex-input-encoding']"/>
                         <xsl:variable name="complex.input" select="$form-values/values/value[@key='complex-input']"/>
+                        <xsl:variable name="literal.output.id" select="$form-values/values/value[@key='literal-output-identifier']"/>
+                        <xsl:variable name="complex.output.id" select="$form-values/values/value[@key='complex-output-identifier']"/>
+                        <xsl:variable name="complex.output.mimetype" select="$form-values/values/value[@key='complex-output-mimetype']"/>
+                        <xsl:variable name="complex.output.schema" select="$form-values/values/value[@key='complex-output-schema']"/>
+                        <xsl:variable name="complex.output.encoding" select="$form-values/values/value[@key='complex-output-encoding']"/>
 
                         <!-- headless version >
 			<xsl:variable name="wps.service.url" select="'http://localhost:9090/wps/default'"/>
@@ -253,6 +304,11 @@
 				<ctl:with-param name="complexInputSchema" select="$complex.input.schema"/>
 				<ctl:with-param name="complexInputEncoding" select="$complex.input.encoding"/>
 				<ctl:with-param name="complexInput" select="$complex.input"/>
+				<ctl:with-param name="literalOutputId" select="$literal.output.id"/>
+				<ctl:with-param name="complexOutputId" select="$complex.output.id"/>
+				<ctl:with-param name="complexOutputMimetye" select="$complex.output.mimetype"/>
+				<ctl:with-param name="complexOutputSchema" select="$complex.output.schema"/>
+				<ctl:with-param name="complexOutputEncoding" select="$complex.output.encoding"/>
 			</ctl:call-test>
 
 		</ctl:code>
@@ -394,6 +450,11 @@
 		    <ctl:param name="complexInputSchema"/>
 		    <ctl:param name="complexInputEncoding"/>
 		    <ctl:param name="complexInput"/>
+			<ctl:param name="literalOutputId"/>
+		    <ctl:param name="complexOutputId"/>
+		    <ctl:param name="complexOutputMimetype"/>
+		    <ctl:param name="complexOutputSchema"/>
+		    <ctl:param name="complexOutputEncoding"/>
 
 			<ctl:assertion>All assertions for "core" conformance are satisfied.</ctl:assertion>
 			<ctl:comment>Test driver for the core module.</ctl:comment>
@@ -644,6 +705,11 @@
 									<ctl:with-param name="complexInputSchema" select="$complexInputSchema"/>
 									<ctl:with-param name="complexInputEncoding" select="$complexInputEncoding"/>
 									<ctl:with-param name="complexInput" select="$complexInput"/>
+									<ctl:with-param name="literalOutputId" select="$literalOutputId"/>
+									<ctl:with-param name="complexOutputId" select="$complexOutputId"/>
+									<ctl:with-param name="complexOutputMimetype" select="$complexOutputMimetype"/>
+									<ctl:with-param name="complexOutputSchema" select="$complexOutputSchema"/>
+									<ctl:with-param name="complexOutputEncoding" select="$complexOutputEncoding"/>
 								</ctl:call-test>
 							</xsl:otherwise>
 						</xsl:choose>
