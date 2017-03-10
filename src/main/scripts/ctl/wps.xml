@@ -300,13 +300,13 @@
 				<ctl:with-param name="literalInputUom" select="$literal.input.uom"/>
 				<ctl:with-param name="literalInput" select="$literal.input"/>
 				<ctl:with-param name="complexInputId" select="$complex.input.id"/>
-				<ctl:with-param name="complexInputMimetye" select="$complex.input.mimetype"/>
+				<ctl:with-param name="complexInputMimetype" select="$complex.input.mimetype"/>
 				<ctl:with-param name="complexInputSchema" select="$complex.input.schema"/>
 				<ctl:with-param name="complexInputEncoding" select="$complex.input.encoding"/>
 				<ctl:with-param name="complexInput" select="$complex.input"/>
 				<ctl:with-param name="literalOutputId" select="$literal.output.id"/>
 				<ctl:with-param name="complexOutputId" select="$complex.output.id"/>
-				<ctl:with-param name="complexOutputMimetye" select="$complex.output.mimetype"/>
+				<ctl:with-param name="complexOutputMimetype" select="$complex.output.mimetype"/>
 				<ctl:with-param name="complexOutputSchema" select="$complex.output.schema"/>
 				<ctl:with-param name="complexOutputEncoding" select="$complex.output.encoding"/>
 			</ctl:call-test>
