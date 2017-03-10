@@ -227,10 +227,27 @@
 							</DataInputs>
 							<ResponseForm>
 								<ResponseDocument storeExecuteResponse="false" lineage="false" status="false">
-									<Output asReference="false" encoding="UTF-8">
+									<Output asReference="false">
 										<ows:Identifier><xsl:value-of select="$literalOutputId"/></ows:Identifier>
 									</Output>
-									<Output asReference="false" encoding="UTF-8">
+									<Output asReference="false"> 
+										    <xsl:choose>
+										    <xsl:when test="$complexOutputMimetype != ''">
+                                                <xsl:attribute name="mimeType">
+                                                    <xsl:value-of select="$complexOutputMimetype"/>
+                                                </xsl:attribute>
+                                            </xsl:when>
+										    <xsl:when test="$complexOutputSchema != ''">
+                                                <xsl:attribute name="schema">
+                                                    <xsl:value-of select="$complexOutputSchema"/>
+                                                </xsl:attribute>
+                                            </xsl:when>
+										    <xsl:when test="$complexOutputEncoding != ''">
+                                                <xsl:attribute name="encoding">
+                                                    <xsl:value-of select="$complexOutputEncoding"/>
+                                                </xsl:attribute>
+                                            </xsl:when>
+                                            </xsl:choose>
 										<ows:Identifier><xsl:value-of select="$complexOutputId"/></ows:Identifier>
 									</Output>
 								</ResponseDocument>
