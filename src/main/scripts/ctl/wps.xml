@@ -711,6 +711,30 @@
 									<ctl:with-param name="complexOutputSchema" select="$complexOutputSchema"/>
 									<ctl:with-param name="complexOutputEncoding" select="$complexOutputEncoding"/>
 								</ctl:call-test>
+
+								<ctl:message select="'********************************************************'"/>
+								<ctl:message select="''"/>
+								<ctl:call-test name="execute:core-WPS.Execute-POST-ExecuteRequest.2">
+				                    <ctl:with-param name="executeResponseSchemaLocation" select="wpsFunctions:schemaPath($wpsSchemaRoot, $wpsVersion,'wps', 'wpsAll.xsd')"/>
+									<ctl:with-param name="exceptionReportSchema" select="$exceptionReportSchema"/>
+									<ctl:with-param name="postURL" select="$executePostURL"/>
+									<ctl:with-param name="executeVersion" select="$executeVersion"/>
+									<ctl:with-param name="processId" select="$processId"/>
+									<ctl:with-param name="literalInputId" select="$literalInputId"/>
+									<ctl:with-param name="literalInputDatatype" select="$literalInputDatatype"/>
+									<ctl:with-param name="literalInputUom" select="$literalInputUom"/>
+									<ctl:with-param name="literalInput" select="$literalInput"/>
+									<ctl:with-param name="complexInputId" select="$complexInputId"/>
+									<ctl:with-param name="complexInputMimetype" select="$complexInputMimetype"/>
+									<ctl:with-param name="complexInputSchema" select="$complexInputSchema"/>
+									<ctl:with-param name="complexInputEncoding" select="$complexInputEncoding"/>
+									<ctl:with-param name="complexInput" select="$complexInput"/>
+									<ctl:with-param name="literalOutputId" select="$literalOutputId"/>
+									<ctl:with-param name="complexOutputId" select="$complexOutputId"/>
+									<ctl:with-param name="complexOutputMimetype" select="$complexOutputMimetype"/>
+									<ctl:with-param name="complexOutputSchema" select="$complexOutputSchema"/>
+									<ctl:with-param name="complexOutputEncoding" select="$complexOutputEncoding"/>
+								</ctl:call-test>
 							</xsl:otherwise>
 						</xsl:choose>
 
