@@ -424,4 +424,30 @@
             <xsl:copy-of select="$describeProcess"/>
         </ctl:code>
     </ctl:function>
+    
+    <ctl:function name="wpsFunctions:getStatus">
+		<ctl:param name="get.status.url">Capabilities document from test suite bootstrap.</ctl:param>
+		<ctl:description>Performs tests on one LegendURL to support Server.KVP.GET.GetCapabilities.Response.Layer.LegendURL.Correct.Resource and wmtsBootstrap:bootstrap. </ctl:description>
+		<ctl:code>
+		    <ctl:message>Making Exwegwg4578483484383437ecute request.</ctl:message>
+			<xsl:variable name="getstatus">
+				<ctl:request>
+					<ctl:url><xsl:value-of select="$get.status.url"/></ctl:url>
+				</ctl:request>	
+			</xsl:variable>
+			
+			<xsl:choose>
+				<xsl:when test="$getstatus//wps:ExecuteResponse//wps:Status//wps:ProcessSucceeded">
+					<ctl:message>Process succeeded.</ctl:message>
+<!-- 					TODO check if output is there -->
+					<ctl:message>OK</ctl:message>
+				</xsl:when>
+				<xsl:otherwise>
+			        <ctl:call-function name="wpsFunctions:getStatus">
+					    <ctl:with-param name="get.status.url" select="$get.status.url"/>
+                    </ctl:call-function>
+				</xsl:otherwise>
+			</xsl:choose>
+			</ctl:code>
+    </ctl:function>
 </ctl:package>

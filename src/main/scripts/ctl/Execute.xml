@@ -395,12 +395,16 @@
 							</ResponseForm>
 						</Execute>
 					</ctl:body>
-                    <ctl:call-function name="wpsFunctions:xmlValidatingParser">
-                        <ctl:with-param name="schemaFile" select="$executeResponseSchemaLocation"/>
-                    </ctl:call-function>
 				</ctl:request>
+				
 			</xsl:variable>
-
+			<xsl:variable name="checStatusLocation">
+					<ctl:message select="concat('Status location: ', $executeRequest//wps:ExecuteResponse/@statusLocation)" />
+			        <ctl:call-function name="wpsFunctions:getStatus">
+					    <ctl:with-param name="get.status.url" select="$executeRequest//wps:ExecuteResponse/@statusLocation"/>
+                    </ctl:call-function>		
+			</xsl:variable>
+			
 			<xsl:choose>
 				<!-- check for valid schema or missing response -->
 				<xsl:when test="not($executeRequest/*)">
@@ -408,8 +412,8 @@
 					<ctl:message select="concat('Schema file: ', $executeResponseSchemaLocation)" />
 					<ctl:fail />
 				</xsl:when>
-				<xsl:when test="$executeRequest//ows:ExceptionReport">
-					<ctl:message>Valid execute request failed.</ctl:message>
+				<xsl:when test="not($executeRequest//wps:ExecuteResponse//wps:Status//wps:ProcessAccepted)">
+					<ctl:message>Status not set to ProcessAccepted initially.</ctl:message>
 					<ctl:fail />
 				</xsl:when>
 				<!-- looks good -->
@@ -417,6 +421,7 @@
 					<ctl:message>OK</ctl:message>
 				</xsl:otherwise>
 			</xsl:choose>
+			
 		</ctl:code>
 	</ctl:test>
 
